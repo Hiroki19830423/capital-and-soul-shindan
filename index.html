@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>3分でわかる、経営判断診断 | Capital & Soul</title>
+<style>
+    :root {
+        --ivory: #F7F5F0;
+        --warm-gray: #A9A29A;
+        --navy: #1B2430;
+        --dark-navy: #0F151D;
+        --gold: #B8975A;
+        --line: rgba(169,162,154,0.32);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+        background: var(--ivory);
+        color: var(--navy);
+        font-family: "Yu Mincho", "YuMincho", "游明朝", "Hiragino Mincho ProN", "Noto Serif JP", "Noto Serif CJK JP", serif;
+        font-size: 15.5px;
+        line-height: 1.95;
+        letter-spacing: 0.03em;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+    .en {
+        font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+    }
+    .num { font-family: 'EB Garamond', serif; font-variant-numeric: oldstyle-nums; }
+
+    section { padding: 72px 24px; max-width: 640px; margin: 0 auto; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+        min-height: 92vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 90px 28px;
+        background: linear-gradient(165deg, #F7F5F0 0%, #EDE7DA 45%, #D8CBAE 100%);
+    }
+    .hero .en { font-size: 11px; color: var(--warm-gray); margin-bottom: 34px; display:block; }
+    .hero h1 {
+        font-size: 27px;
+        line-height: 1.7;
+        font-weight: 500;
+        margin-bottom: 26px;
+    }
+    .hero p {
+        font-size: 14.5px;
+        line-height: 2.05;
+        color: var(--navy);
+        max-width: 320px;
+        margin: 0 auto 40px;
+    }
+
+    /* ---------- 共通ボタン ---------- */
+    .btn-gold {
+        display: inline-block;
+        padding: 15px 42px;
+        color: var(--gold);
+        border: 1px solid var(--gold);
+        text-decoration: none;
+        font-family: "Yu Mincho", "游明朝", serif;
+        font-size: 14.5px;
+        letter-spacing: 0.18em;
+        background: transparent;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color 0.25s ease;
+    }
+    .btn-gold:active { background-color: rgba(184,151,90,0.12); }
+
+    .btn-navy {
+        display: inline-block;
+        padding: 15px 42px;
+        color: var(--ivory);
+        background: var(--navy);
+        border: 1px solid var(--navy);
+        text-decoration: none;
+        font-family: "Yu Mincho", "游明朝", serif;
+        font-size: 14.5px;
+        letter-spacing: 0.18em;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: opacity 0.25s ease;
+    }
+    .btn-navy:active { opacity: 0.82; }
+
+    .btn-wrap { text-align: center; margin-top: 34px; }
+
+    /* ---------- 導入文 ---------- */
+    .intro { text-align: center; }
+    .intro .en { display:block; font-size: 10.5px; color: var(--gold); margin-bottom: 20px; text-align:center; }
+    .intro p { font-size: 14px; line-height: 2.1; color: var(--navy); margin-bottom: 14px; }
+    .divider {
+        width: 44px; height: 1px; background: var(--gold);
+        margin: 26px auto;
+    }
+
+    /* ---------- チェックリスト ---------- */
+    .checklist-section { background: var(--navy); color: var(--ivory); max-width: 100%; padding: 72px 24px 90px; }
+    .checklist-inner { max-width: 640px; margin: 0 auto; }
+    .checklist-section .en { display:block; text-align:center; font-size:10.5px; color: var(--warm-gray); margin-bottom:16px; }
+    .checklist-section h2 {
+        text-align: center;
+        font-size: 19px;
+        font-weight: 500;
+        line-height: 1.7;
+        margin-bottom: 8px;
+    }
+    .checklist-note {
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--warm-gray);
+        margin-bottom: 36px;
+    }
+    .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 15px 2px;
+        border-bottom: 1px solid rgba(247,245,240,0.14);
+        cursor: pointer;
+    }
+    .check-item input {
+        position: absolute;
+        opacity: 0;
+        width: 1px; height: 1px;
+    }
+    .check-mark {
+        flex-shrink: 0;
+        width: 19px;
+        height: 19px;
+        border: 1px solid var(--gold);
+        margin-top: 2px;
+        position: relative;
+    }
+    .check-item input:checked + .check-mark::after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 0px;
+        width: 5px;
+        height: 10px;
+        border-right: 1.4px solid var(--gold);
+        border-bottom: 1.4px solid var(--gold);
+        transform: rotate(45deg);
+    }
+    .check-item input:checked ~ .check-label { color: var(--ivory); }
+    .check-label {
+        font-size: 14px;
+        line-height: 1.75;
+        color: rgba(247,245,240,0.86);
+    }
+
+    .counter-row {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 12.5px;
+        color: var(--warm-gray);
+        letter-spacing: 0.06em;
+    }
+    .counter-row .num { color: var(--gold); font-size: 15px; }
+
+    /* ---------- 結果セクション ---------- */
+    .result-section { display: none; text-align: center; }
+    .result-section.show { display: block; }
+    .result-badge {
+        width: 66px; height: 66px;
+        border-radius: 50%;
+        border: 1px solid var(--gold);
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 26px;
+        color: var(--gold);
+        margin: 0 auto 20px;
+    }
+    .result-type-name { font-size: 21px; font-weight: 500; margin-bottom: 22px; }
+    .result-section p { font-size: 14px; line-height: 2.05; color: var(--navy); margin-bottom: 14px; text-align: left; }
+    .result-action {
+        margin-top: 26px;
+        border-top: 1px solid var(--gold);
+        padding-top: 18px;
+        text-align: left;
+    }
+    .result-action .en { font-size: 10px; color: var(--gold); display:block; margin-bottom: 10px; }
+    .result-action p { color: var(--navy); font-size: 14px; }
+    .result-type-block { display: none; }
+    .result-type-block.active { display: block; }
+
+    .retry-link {
+        display: inline-block;
+        margin-top: 30px;
+        font-size: 12px;
+        color: var(--warm-gray);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    /* ---------- CTAセクション ---------- */
+    .cta-section {
+        display: none;
+        background: var(--navy);
+        color: var(--ivory);
+        max-width: 100%;
+        padding: 76px 24px;
+        text-align: center;
+    }
+    .cta-section.show { display: block; }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-section .en { font-size: 10.5px; color: var(--gold); display:block; margin-bottom: 20px; }
+    .cta-section h2 { font-size: 19px; font-weight: 500; line-height: 1.7; margin-bottom: 26px; }
+    .cta-section p { font-size: 13.5px; line-height: 2.05; color: rgba(247,245,240,0.85); margin-bottom: 12px; text-align: left; }
+    .cta-note { font-size: 11.5px; color: var(--warm-gray); margin-top: 18px; }
+
+    /* ---------- ブランドクロージング ---------- */
+    .closing {
+        background: var(--dark-navy);
+        color: var(--ivory);
+        max-width: 100%;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px 28px;
+    }
+    .closing .message { font-size: 16px; line-height: 2.1; margin-bottom: 30px; }
+    .closing .en { font-size: 12px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 14px; display:block; }
+    .closing .tagline { font-size: 13px; line-height: 2; color: rgba(247,245,240,0.85); }
+    .closing .footer-meta { margin-top: 40px; font-size: 10.5px; color: var(--warm-gray); }
+
+    @media (min-width: 480px) {
+        .hero h1 { font-size: 29px; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 1. ファーストビュー -->
+<!-- ============================================================ -->
+<div class="hero">
+    <span class="en">CAPITAL &amp; SOUL — SELF-CHECK</span>
+    <h1>3分でわかる、<br>経営判断診断</h1>
+    <p>制度を活用すべきか。<br>その前に、資金や経営を整えるべきか。<br>現在の状況から、次の一手を静かに整理します。</p>
+    <a href="#checklist" class="btn-gold" id="startBtn">診断をはじめる</a>
+</div>
+
+<!-- ============================================================ -->
+<!-- 2. 導入文 -->
+<!-- ============================================================ -->
+<section class="intro">
+    <span class="en">ABOUT THIS CHECK</span>
+    <div class="divider"></div>
+    <p>この診断は、補助金・助成金の採択可否を判定するものではありません。</p>
+    <p>現在の事業状況、資金繰り、投資予定、採用計画などをもとに、<br>
+    「今、何を優先して考えるべきか」を整理するための簡易診断です。</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- 3. 診断項目（チェックリスト） -->
+<!-- ============================================================ -->
+<div class="checklist-section" id="checklist">
+    <div class="checklist-inner">
+        <span class="en">20 QUESTIONS</span>
+        <h2>当てはまるものに<br>チェックしてください</h2>
+        <p class="checklist-note">正しく答えることよりも、正直に答えることを大切にしてください。</p>
+
+        <form id="checkForm">
+            <!-- 20項目 -->
+        </form>
+
+        <div class="counter-row"><span class="num" id="checkedCount">0</span> / 20 選択中</div>
+
+        <div class="btn-wrap">
+            <button type="button" class="btn-gold" id="diagnoseBtn">診断結果を見る</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 4. 診断結果 -->
+<!-- ============================================================ -->
+<section class="result-section" id="resultSection">
+    <span class="en">YOUR RESULT</span>
+    <div class="divider"></div>
+
+    <div class="result-type-block" id="typeA">
+        <div class="result-badge">A</div>
+        <div class="result-type-name">安定型</div>
+        <p>資金繰りや投資判断について、すでに一定の軸をお持ちです。<br>
+        制度は「使わなければならないもの」ではなく、必要に応じて選択的に検討できる段階です。</p>
+        <div class="result-action">
+            <span class="en">今、やるべきこと</span>
+            <p>事業計画と資金計画をあらためて整理し、<br>制度を活用する場合は、投資目的との整合性を確認しましょう。</p>
+        </div>
+    </div>
+
+    <div class="result-type-block" id="typeB">
+        <div class="result-badge">B</div>
+        <div class="result-type-name">岐路型</div>
+        <p>事業は前向きに動いていますが、<br>
+        それを支える資金設計が、まだ言語化されていない可能性があります。</p>
+        <div class="result-action">
+            <span class="en">今、やるべきこと</span>
+            <p>制度の情報収集より先に、<br>キャッシュフロー・投資計画・借入余力を整理しましょう。</p>
+        </div>
+    </div>
+
+    <div class="result-type-block" id="typeC">
+        <div class="result-badge">C</div>
+        <div class="result-type-name">要整理型</div>
+        <p>制度活用を考える前に、<br>
+        現在の事業・資金繰り・将来計画を整理するタイミングかもしれません。</p>
+        <div class="result-action">
+            <span class="en">今、やるべきこと</span>
+            <p>今すぐ制度を使うかどうかではなく、<br>まず経営全体の現在地を可視化することが重要です。</p>
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <span class="retry-link" id="retryLink">もう一度診断する</span>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 5. 診断結果後のCTA -->
+<!-- ============================================================ -->
+<div class="cta-section" id="ctaSection">
+    <div class="cta-inner">
+        <span class="en">AN INVITATION</span>
+        <h2>あなたに最適な進め方を<br>ご提案します</h2>
+        <p>診断結果は、あくまで現在地を知るための目安です。</p>
+        <p>実際には、現在の事業状況、財務状況、キャッシュフロー、今後の投資予定、採用や事業承継の計画によって、最適な判断は変わります。</p>
+        <p>Capital &amp; Soulでは、補助金を申請すべきかどうかではなく、<br>
+        「今、何を優先して整えるべきか」という視点から、30分ほど現在の状況を一緒に整理しています。</p>
+        <p>営業や申請前提のご案内ではありません。<br>
+        まずは、経営判断を整える時間としてご活用ください。</p>
+        <div class="btn-wrap">
+            <a href="https://www.jicoo.com/t/ki5Znb1yZEwl/e/vj6ZsiLU" class="btn-navy" style="background:var(--gold); border-color:var(--gold); color:var(--dark-navy);" target="_blank" rel="noopener">30分オンライン相談を予約する</a>
+        </div>
+        <p class="cta-note">LINEアプリ内ブラウザからも、そのままご予約いただけます。</p>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 6. ブランドクロージング -->
+<!-- ============================================================ -->
+<div class="closing">
+    <div class="message">経営の答えは、<br>制度の中ではなく、<br>あなたの会社の中にあります。</div>
+    <span class="en">CAPITAL &amp; SOUL</span>
+    <div class="tagline">人生と資産を、長期で設計する。</div>
+    <div class="footer-meta">株式会社LA・グローバルサービス</div>
+</div>
+
+<script>
+(function () {
+    var questions = [
+        "設備投資を予定している",
+        "人材の採用を予定している",
+        "IT導入・システム化を検討している",
+        "新規事業や新商品の開発を考えている",
+        "今後、借入を予定している",
+        "利益は出ているが、手元に資金が残らない",
+        "資金繰り表を作成していない",
+        "直近1年で、大きな投資判断をした",
+        "補助金・助成金の名前は知っているが、詳しくは分からない",
+        "過去に補助金・助成金を使ったことがある",
+        "顧問税理士以外に、経営の相談相手がいない",
+        "売上は伸びているが、忙しさばかりが増えている",
+        "事業承継について、まだ何も決めていない",
+        "会社の3年後のビジョンを、言葉にできない",
+        "固定費が増える意思決定を、勢いで決めがちだ",
+        "毎月の資金繰りを、感覚で把握している",
+        "銀行からの借入余力がどの程度か、把握していない",
+        "経営者個人の資産形成について、後回しにしている",
+        "「制度が使えるなら使いたい」と漠然と思っている",
+        "今の事業のキャッシュフローに、少し不安がある"
+    ];
+
+    var form = document.getElementById('checkForm');
+    var frag = document.createDocumentFragment();
+    questions.forEach(function (text, i) {
+        var label = document.createElement('label');
+        label.className = 'check-item';
+        label.innerHTML =
+            '<input type="checkbox" name="q" value="' + (i + 1) + '">' +
+            '<span class="check-mark"></span>' +
+            '<span class="check-label">' + text + '</span>';
+        frag.appendChild(label);
+    });
+    form.appendChild(frag);
+
+    var checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    var counterEl = document.getElementById('checkedCount');
+
+    function updateCount() {
+        var count = 0;
+        checkboxes.forEach(function (cb) { if (cb.checked) count++; });
+        counterEl.textContent = count;
+        return count;
+    }
+
+    checkboxes.forEach(function (cb) {
+        cb.addEventListener('change', updateCount);
+    });
+
+    var resultSection = document.getElementById('resultSection');
+    var ctaSection = document.getElementById('ctaSection');
+    var typeBlocks = {
+        A: document.getElementById('typeA'),
+        B: document.getElementById('typeB'),
+        C: document.getElementById('typeC')
+    };
+
+    document.getElementById('diagnoseBtn').addEventListener('click', function () {
+        var count = updateCount();
+        var type = count <= 6 ? 'A' : (count <= 13 ? 'B' : 'C');
+
+        Object.keys(typeBlocks).forEach(function (k) {
+            typeBlocks[k].classList.toggle('active', k === type);
+        });
+
+        resultSection.classList.add('show');
+        ctaSection.classList.add('show');
+
+        setTimeout(function () {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+    });
+
+    document.getElementById('retryLink').addEventListener('click', function () {
+        checkboxes.forEach(function (cb) { cb.checked = false; });
+        updateCount();
+        resultSection.classList.remove('show');
+        ctaSection.classList.remove('show');
+        document.getElementById('checklist').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+})();
+</script>
+
+</body>
+</html>
