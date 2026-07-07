@@ -74,8 +74,15 @@
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
         transition: background-color 0.25s ease;
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 0;
+        margin: 0;
+        line-height: normal;
+        outline: none;
     }
     .btn-gold:active { background-color: rgba(184,151,90,0.12); }
+    .btn-gold:focus { outline: none; }
 
     .btn-navy {
         display: inline-block;
@@ -195,6 +202,29 @@
     .result-type-block { display: none; }
     .result-type-block.active { display: block; }
 
+    .result-invite {
+        margin-top: 34px;
+        border-top: 1px solid var(--gold);
+        padding-top: 26px;
+        text-align: left;
+    }
+    .result-invite p {
+        font-size: 13.5px;
+        line-height: 2.05;
+        color: var(--navy);
+        margin-bottom: 14px;
+    }
+    .result-book-btn {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--dark-navy);
+        width: 100%;
+        max-width: 340px;
+        padding: 17px 20px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
     .retry-link {
         display: inline-block;
         margin-top: 30px;
@@ -252,7 +282,7 @@
     <span class="en">CAPITAL &amp; SOUL — SELF-CHECK</span>
     <h1>3分でわかる、<br>経営判断診断</h1>
     <p>制度を活用すべきか。<br>その前に、資金や経営を整えるべきか。<br>現在の状況から、次の一手を静かに整理します。</p>
-    <a href="#checklist" class="btn-gold" id="startBtn">診断をはじめる</a>
+    <button type="button" class="btn-gold" id="startBtn">診断をはじめる</button>
 </div>
 
 <!-- ============================================================ -->
@@ -276,7 +306,26 @@
         <p class="checklist-note">正しく答えることよりも、正直に答えることを大切にしてください。</p>
 
         <form id="checkForm">
-            <!-- 20項目 -->
+            <label class="check-item"><input type="checkbox" name="q" value="1"><span class="check-mark"></span><span class="check-label">設備投資を予定している</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="2"><span class="check-mark"></span><span class="check-label">人材の採用を予定している</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="3"><span class="check-mark"></span><span class="check-label">IT導入・システム化を検討している</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="4"><span class="check-mark"></span><span class="check-label">新規事業や新商品の開発を考えている</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="5"><span class="check-mark"></span><span class="check-label">今後、借入を予定している</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="6"><span class="check-mark"></span><span class="check-label">利益は出ているが、手元に資金が残らない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="7"><span class="check-mark"></span><span class="check-label">資金繰り表を作成していない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="8"><span class="check-mark"></span><span class="check-label">直近1年で、大きな投資判断をした</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="9"><span class="check-mark"></span><span class="check-label">補助金・助成金の名前は知っているが、詳しくは分からない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="10"><span class="check-mark"></span><span class="check-label">過去に補助金・助成金を使ったことがある</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="11"><span class="check-mark"></span><span class="check-label">顧問税理士以外に、経営の相談相手がいない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="12"><span class="check-mark"></span><span class="check-label">売上は伸びているが、忙しさばかりが増えている</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="13"><span class="check-mark"></span><span class="check-label">事業承継について、まだ何も決めていない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="14"><span class="check-mark"></span><span class="check-label">会社の3年後のビジョンを、言葉にできない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="15"><span class="check-mark"></span><span class="check-label">固定費が増える意思決定を、勢いで決めがちだ</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="16"><span class="check-mark"></span><span class="check-label">毎月の資金繰りを、感覚で把握している</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="17"><span class="check-mark"></span><span class="check-label">銀行からの借入余力がどの程度か、把握していない</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="18"><span class="check-mark"></span><span class="check-label">経営者個人の資産形成について、後回しにしている</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="19"><span class="check-mark"></span><span class="check-label">「制度が使えるなら使いたい」と漠然と思っている</span></label>
+            <label class="check-item"><input type="checkbox" name="q" value="20"><span class="check-mark"></span><span class="check-label">今の事業のキャッシュフローに、少し不安がある</span></label>
         </form>
 
         <div class="counter-row"><span class="num" id="checkedCount">0</span> / 20 選択中</div>
@@ -364,41 +413,15 @@
 
 <script>
 (function () {
-    var questions = [
-        "設備投資を予定している",
-        "人材の採用を予定している",
-        "IT導入・システム化を検討している",
-        "新規事業や新商品の開発を考えている",
-        "今後、借入を予定している",
-        "利益は出ているが、手元に資金が残らない",
-        "資金繰り表を作成していない",
-        "直近1年で、大きな投資判断をした",
-        "補助金・助成金の名前は知っているが、詳しくは分からない",
-        "過去に補助金・助成金を使ったことがある",
-        "顧問税理士以外に、経営の相談相手がいない",
-        "売上は伸びているが、忙しさばかりが増えている",
-        "事業承継について、まだ何も決めていない",
-        "会社の3年後のビジョンを、言葉にできない",
-        "固定費が増える意思決定を、勢いで決めがちだ",
-        "毎月の資金繰りを、感覚で把握している",
-        "銀行からの借入余力がどの程度か、把握していない",
-        "経営者個人の資産形成について、後回しにしている",
-        "「制度が使えるなら使いたい」と漠然と思っている",
-        "今の事業のキャッシュフローに、少し不安がある"
-    ];
+    // 「診断をはじめる」ボタン：ページ内スクロールのみを行い、外部遷移は一切発生させない
+    var startBtn = document.getElementById('startBtn');
+    var checklistTarget = document.getElementById('checklist');
+    startBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        checklistTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 
     var form = document.getElementById('checkForm');
-    var frag = document.createDocumentFragment();
-    questions.forEach(function (text, i) {
-        var label = document.createElement('label');
-        label.className = 'check-item';
-        label.innerHTML =
-            '<input type="checkbox" name="q" value="' + (i + 1) + '">' +
-            '<span class="check-mark"></span>' +
-            '<span class="check-label">' + text + '</span>';
-        frag.appendChild(label);
-    });
-    form.appendChild(frag);
 
     var checkboxes = form.querySelectorAll('input[type="checkbox"]');
     var counterEl = document.getElementById('checkedCount');
